@@ -1,5 +1,5 @@
 src/app/api/.env
-src/app/api/qdrant
+# src/app/api/qdrant/*
 src/app/api/uploads/*
 .env.local
 node_modules
