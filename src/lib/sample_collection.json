@@ -1,0 +1,28 @@
+{
+  "collections": [
+    {
+      "key": "history",
+      "label": "History",
+      "questions": [
+        "Briefly explain the history of Markham Swan Lake park?",
+        "What are the major historical milestones of Swan Lake park?"
+      ]
+    },
+    {
+      "key": "threats",
+      "label": "Threats",
+      "questions": [
+        "What are the common threats to the Swan Lake?",
+        "What are the major threats to the Markham Swan Lake?"
+      ]
+    },
+    {
+      "key": "strategies",
+      "label": "Strategies",
+      "questions": [
+        "What are the common strategies to prevent issues at Swan Lake park?",
+        "What are the most important strategies when managing the Swan Lake Park"
+      ]
+    }
+  ]
+}
