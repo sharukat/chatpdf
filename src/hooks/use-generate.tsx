@@ -28,7 +28,8 @@ export const useAnswerGeneration = () => {
         const lastMessage = currentMessages[currentMessages.length - 1].content;
         console.log(lastMessage);
         try {
-            const context_response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/getdocuments`, {
+            // const context_response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/getdocuments`, {
+            const context_response = await fetch(`/api/getdocuments`, {
                 method: "POST",
                 mode: "cors",
                 headers: { "Content-Type": "application/json" },
