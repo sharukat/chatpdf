@@ -25,6 +25,9 @@ class VectorDB:
 
     def create_vectordb(self, folder_path: str):
         try:
+            if not os.path.exists("qdrant"):
+                os.makedirs("qdrant")
+
             all_documents = []
             if not os.path.isdir(folder_path):
                 raise ValueError("Not a valid directory")
