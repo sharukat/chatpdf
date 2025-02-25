@@ -3,3 +3,4 @@ src/app/api/uploads/*
 .env.local
 node_modules
 venv
+.next

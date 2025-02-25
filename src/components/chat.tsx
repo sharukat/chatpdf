@@ -1,16 +1,8 @@
 "use client";
 
-import {
-    Button,
-    Dropdown,
-    DropdownTrigger,
-    DropdownMenu,
-    DropdownItem,
-    Textarea,
-} from "@heroui/react";
+import {Button, Textarea} from "@heroui/react";
 import { ArrowUp } from "lucide-react";
-import React, { useCallback, useMemo, useEffect, useContext, useState } from "react";
-import collectionsData from "@/lib/sample_collection.json";
+import React, { useCallback, useMemo, useContext, useState } from "react";
 import { Messages } from "./messages";
 import { Message } from "@/lib/typings";
 import { cn } from "@/lib/utils";
@@ -52,35 +44,35 @@ export const Chat = () => {
 
     const handleAddtoDB = useCallback(async () => {
         if (files.length === 0) return;
-        
+
         const formData = new FormData();
         files.forEach((file, index) => {
-          formData.append(`file${index}`, file);
+            formData.append(`file${index}`, file);
         });
-        
+
         try {
-          setIsLoading(true);
-          
-          const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`, {
-            method: 'POST',
-            body: formData,
-          });
-          
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          
-          const data = await response.json();
-          setFiles([]);
-          setDb(true)
-          toast.success("Vector database created.");
-          console.log(data.message)
+            setIsLoading(true);
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setFiles([]);
+            setDb(true)
+            toast.success("Vector database created.");
+            console.log(data.message)
         } catch (error) {
-          console.error('Error uploading files:', error);
+            console.error('Error uploading files:', error);
         } finally {
-          setIsLoading(false);
+            setIsLoading(false);
         }
-      }, [files, context]);
+    }, [files, context]);
 
     return (
         <div className="flex flex-1">
@@ -138,18 +130,18 @@ export const Chat = () => {
                                         <div className="flex flex-col items-center">
                                             <FileUpload onChange={handleFileUpload} />
                                             <Button
-                                            className="max-w-3xl"
-                                            isLoading={context.isLoading}
-                                            radius="full"
-                                            onPress={handleAddtoDB}
-                                            color="primary"
-                                            isDisabled={context.isLoading || files.length === 0}
+                                                className="max-w-3xl"
+                                                isLoading={context.isLoading}
+                                                radius="full"
+                                                onPress={handleAddtoDB}
+                                                color="primary"
+                                                isDisabled={context.isLoading || files.length === 0}
                                             >Create Vector Database</Button>
                                         </div>
-                                        
+
                                     )}
 
-                                    
+
                                 </div>
                             </div>
                         </div>
