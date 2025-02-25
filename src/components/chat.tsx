@@ -13,8 +13,8 @@ import toast, { Toaster } from "react-hot-toast";
 export const Chat = () => {
     const context = useContext(ChatContext);
     const memoizedMessages = useMemo(() => context.messages, [context.messages]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [db, setDb] = useState(false);
+    const [dbStatus, setDbStatus] = useState(false);
+    const [dbLoading, setDbLoading] = useState(false);
 
     const [files, setFiles] = useState<File[]>([]);
     const handleFileUpload = (files: File[]) => {
@@ -51,7 +51,7 @@ export const Chat = () => {
         });
 
         try {
-            setIsLoading(true);
+            setDbLoading(true);
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`, {
                 method: 'POST',
@@ -64,13 +64,13 @@ export const Chat = () => {
 
             const data = await response.json();
             setFiles([]);
-            setDb(true)
             toast.success("Vector database created.");
             console.log(data.message)
+            setDbStatus(true)
         } catch (error) {
             console.error('Error uploading files:', error);
         } finally {
-            setIsLoading(false);
+            setDbLoading(false);
         }
     }, [files, context]);
 
@@ -121,7 +121,7 @@ export const Chat = () => {
                                             radius="full"
                                             type="submit"
                                             color="primary"
-                                            isDisabled={context.isLoading || !setDb}
+                                            isDisabled={context.isLoading || !dbStatus}
                                         >
                                             <ArrowUp className="text-white" />
                                         </Button>}
@@ -131,11 +131,11 @@ export const Chat = () => {
                                             <FileUpload onChange={handleFileUpload} />
                                             <Button
                                                 className="max-w-3xl"
-                                                isLoading={context.isLoading}
+                                                isLoading={dbLoading}
                                                 radius="full"
                                                 onPress={handleAddtoDB}
                                                 color="primary"
-                                                isDisabled={context.isLoading || files.length === 0}
+                                                isDisabled={files.length === 0 || dbStatus}
                                             >Create Vector Database</Button>
                                         </div>
 
