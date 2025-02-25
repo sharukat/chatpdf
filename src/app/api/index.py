@@ -8,14 +8,16 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-CORS(
-    app,
-    resources={
-        r"/api/*": {"origins": [
-            "http://localhost:3000",
-            "http://130.63.65.112:3000"]}
-    },
-)
+# CORS(
+#     app,
+#     resources={
+#         r"/api/*": {"origins": [
+#             "http://localhost:3000",
+#             "http://130.63.65.112:3000"]}
+#     },
+# )
+
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 UPLOAD_FOLDER = 'uploads'
@@ -65,4 +67,4 @@ def vectordb():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5328, debug=True)
+    app.run(port=5328)
