@@ -1,6 +1,6 @@
 .next/*
-src/qdrant/*
-src/uploads/*
+qdrant/*
+uploads/*
 .env.local
 node_modules
 venv
