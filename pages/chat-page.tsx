@@ -8,7 +8,7 @@ import {Plus, PanelLeft} from "lucide-react";
 import ChatContext from "../contexts/chat-context";
 import {Chat} from "../components/chat";
 import {useAnswerGeneration} from "../hooks/use-generate";
-import {Message, SelectedQuestion} from "../lib/typings";
+import {Message} from "../lib/typings";
 
 export default function ChatPage() {
     const [open, setOpen] = useState(false);
