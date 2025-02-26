@@ -3,7 +3,6 @@ import logging
 from typing import List
 from dotenv import load_dotenv
 from langchain_cohere import CohereRerank
-from langchain_groq import ChatGroq
 from langchain_core.documents import Document
 from langchain_core.prompts import PromptTemplate
 from langchain.retrievers import contextual_compression
@@ -24,15 +23,6 @@ sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
 class Retriever:
     def __init__(self) -> None:
         pass
-
-    @staticmethod
-    def get_hyde(max_tokens=None):
-        return ChatGroq(
-            model="llama-3.3-70b-versatile",
-            temperature=0,
-            max_tokens=max_tokens,
-            api_key=os.environ.get("GROQ_API_KEY")
-        )
 
     @staticmethod
     def repacking(documents: List[Document]) -> List[Document]:
@@ -64,7 +54,6 @@ class Retriever:
         return response
 
     def retrieve(self, question: str):
-        hyde_response = self.hyde_generation(question)
         vectordb = QdrantVectorStore.from_existing_collection(
             embedding=dense_embeddings,
             sparse_embedding=sparse_embeddings,
@@ -79,6 +68,6 @@ class Retriever:
             base_compressor=compressor, base_retriever=retriever
         )
 
-        reranked_docs = c_retriever.invoke(hyde_response)
+        reranked_docs = c_retriever.invoke(question)
         repacked_docs = self.repacking(reranked_docs)
         return repacked_docs

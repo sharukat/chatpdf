@@ -4,7 +4,6 @@ import React, {useEffect, useState} from "react";
 import {Sidebar, SidebarBody} from "../components/ui/sidebar";
 import {cn} from "../lib/utils";
 import {Button} from "@heroui/react";
-import {Plus, PanelLeft} from "lucide-react";
 import ChatContext from "../contexts/chat-context";
 import {Chat} from "../components/chat";
 import {useAnswerGeneration} from "../hooks/use-generate";
@@ -19,7 +18,7 @@ export default function ChatPage() {
         setMessages,
         input,
         setInput,
-        generateText,
+        generateAnswer,
         history,
         addToHistory,
         updateHistory,
@@ -51,7 +50,7 @@ export default function ChatPage() {
             messages,
             setMessages,
             isLoading,
-            generateText,
+            generateAnswer,
             history,
         }}>
             <div
@@ -62,15 +61,6 @@ export default function ChatPage() {
                 <Sidebar open={open} setOpen={setOpen}>
                     <SidebarBody className="justify-between gap-10">
                         <div className="flex flex-col overflow-y-auto overflow-x-hidden">
-                            <Button
-                                className="font-bold mb-3"
-                                color="default"
-                                radius="full"
-                                isIconOnly
-                                size="sm"
-                            >
-                                <PanelLeft/>
-                            </Button>
                             {(open) && (
                                 <div className="flex flex-col flex-1">
                                     <Button
@@ -79,7 +69,6 @@ export default function ChatPage() {
                                         radius="full"
                                         size="md"
                                         onPress={handleNewChat}
-                                        startContent={<Plus/>}
                                     >
                                         New Chat
                                     </Button>

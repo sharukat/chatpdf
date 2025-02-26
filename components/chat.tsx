@@ -1,14 +1,12 @@
 "use client";
 
 import {Button, Textarea} from "@heroui/react";
-import { ArrowUp } from "lucide-react";
 import React, { useCallback, useMemo, useContext, useState } from "react";
 import { Messages } from "./messages";
 import { Message } from "../lib/typings";
 import { cn } from "../lib/utils";
 import ChatContext from "../contexts/chat-context";
 import { FileUpload } from "./ui/file-upload";
-import toast, { Toaster } from "react-hot-toast";
 
 export const Chat = () => {
     const context = useContext(ChatContext);
@@ -36,7 +34,7 @@ export const Chat = () => {
         context.setMessages(updatedMessages);
 
         try {
-            await context.generateText(updatedMessages);
+            await context.generateAnswer(updatedMessages);
         } catch (error) {
             console.error("Error generating response:", error);
         }
@@ -64,8 +62,7 @@ export const Chat = () => {
 
             const data = await response.json();
             setFiles([]);
-            toast.success("Vector database created.");
-            console.log(data.message)
+            console.log("Vector database created.")
             setDbStatus(true)
         } catch (error) {
             console.error('Error uploading files:', error);
@@ -76,7 +73,6 @@ export const Chat = () => {
 
     return (
         <div className="flex flex-1">
-            <Toaster />
             <div
                 className="p-2 md:p-10 rounded-tl-2xl border  bg-white flex flex-col gap-2 flex-1 w-full h-full items-center">
                 <div className="flex flex-col gap-2 w-full">
@@ -116,14 +112,13 @@ export const Chat = () => {
                                         {context.input && <Button
                                             className="absolute right-2 bottom-2 z-10 bg-gray-900"
                                             isLoading={context.isLoading}
-                                            isIconOnly
                                             size="sm"
                                             radius="full"
                                             type="submit"
                                             color="primary"
                                             isDisabled={context.isLoading || !dbStatus}
                                         >
-                                            <ArrowUp className="text-white" />
+                                            Submit
                                         </Button>}
                                     </form>
                                     {context.messages.length === 0 && (

@@ -1,15 +1,14 @@
-import {useState, useCallback, useRef, useEffect} from "react";
-import toast from "react-hot-toast";
-import {Message, History} from "../lib/typings";
-import {streamText} from 'ai';
-import {createGroq} from '@ai-sdk/groq';
+import { useState, useCallback, useRef, useEffect } from "react";
+import { Message, History } from "../lib/typings";
+import { streamText, generateText } from 'ai';
+import { createGroq } from '@ai-sdk/groq';
 import { v4 } from 'uuid';
 
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const useAnswerGeneration = () => {
-    const groq = createGroq({apiKey: process.env.NEXT_PUBLIC_GROQ});
+    const groq = createGroq({ apiKey: process.env.NEXT_PUBLIC_GROQ });
     const model = groq('deepseek-r1-distill-llama-70b');
 
     const [input, setInput] = useState("");
@@ -23,26 +22,40 @@ export const useAnswerGeneration = () => {
         messagesRef.current = messages;
     }, [messages]);
 
-    const generateText = useCallback(async (currentMessages: Message[]): Promise<void> => {
+    const generateAnswer = useCallback(async (currentMessages: Message[]): Promise<void> => {
         setIsLoading(true);
+
         const lastMessage = currentMessages[currentMessages.length - 1].content;
         console.log(lastMessage);
         try {
+
+            const hyde = await generateText({
+                model: groq('llama-3.3-70b-versatile'),
+                temperature: 0,
+                system: `You are an expert in question answering.
+                    First, analyze the question carefully and think step by step.
+                    Provide accurate, factual answers based on verified information.`,
+                prompt: `Question:
+                    ${lastMessage}`,
+            });
+            const hydeText = hyde.text
+            console.log(hydeText)
+
+
             const context_response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/getdocuments`, {
                 method: "POST",
                 mode: "cors",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: lastMessage })
+                body: JSON.stringify({ question: hydeText })
             });
             const data = await context_response.json();
-            let context = "No relevant context found."; 
+            let context = "No relevant context found.";
 
             if (data.response) {
                 context = data.response;
-                toast.success("Retrieval Successful");
-                console.log(context)
+                console.log("Retrieval Successful")
             } else {
-                toast.error("Received invalid response format from server");
+                console.log("Received invalid response format from server");
             }
 
 
@@ -64,7 +77,7 @@ export const useAnswerGeneration = () => {
                 ${lastMessage}`,
             });
 
-            const assistantMessage: Message = {role: "assistant", content: ""};
+            const assistantMessage: Message = { role: "assistant", content: "" };
             setMessages(prev => [...prev, assistantMessage]);
 
             let fullResponse = "";
@@ -102,10 +115,9 @@ export const useAnswerGeneration = () => {
                 }
             }
 
-            toast.success("Answer Generation Successful");
+            console.log("Answer Generation Successful");
         } catch (error) {
             console.error("Submission error:", error);
-            toast.error("Failed to get response from server");
         } finally {
             setIsLoading(false);
             setInput("");
@@ -113,7 +125,7 @@ export const useAnswerGeneration = () => {
     }, [model]);
 
     const addToHistory = useCallback((activeChatId: string) => {
-        if (!historyIds.has(activeChatId)){
+        if (!historyIds.has(activeChatId)) {
             const timestamp = Date.now();
             const id = v4()
             const messagesItem: History = {
@@ -155,7 +167,7 @@ export const useAnswerGeneration = () => {
         messagesRef,
         isLoading,
         setIsLoading,
-        generateText,
+        generateAnswer,
         history,
         addToHistory,
         updateHistory,

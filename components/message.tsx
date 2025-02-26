@@ -1,5 +1,5 @@
 import {cn} from "../lib/utils";
-import {Bot, User} from "lucide-react";
+import {IconRobot, IconUser} from "@tabler/icons-react";
 import { MemoizedMarkdown } from './memoized-markdown';
 
 
@@ -21,9 +21,9 @@ export const Message = ({id, content, isUserMessage}: MessageProps) => {
                 "flex-shrink-0" // Prevent icon from shrinking
             )}>
                 {isUserMessage ? (
-                    <User className="size-5 text-white"/>
+                    <IconUser className="size-5 text-white"/>
                 ) : (
-                    <Bot className="size-5 text-white"/>
+                    <IconRobot className="size-5 text-white"/>
                 )}
             </div>
             <div className="flex flex-col">

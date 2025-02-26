@@ -8,7 +8,7 @@ interface ChatContextType {
     messages: Message[];
     setMessages: (messages: Message[]) => void;
     isLoading: boolean;
-    generateText: (messages: Message[]) => Promise<void>;
+    generateAnswer: (messages: Message[]) => Promise<void>;
     history: History[];
 }
 
@@ -20,7 +20,7 @@ const ChatContext = createContext<ChatContextType>({
         setMessages: () => {
         },
         isLoading: false,
-        generateText: () => Promise.resolve(),
+        generateAnswer: () => Promise.resolve(),
         history: [],
     }
 );
