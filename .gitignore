@@ -1,6 +1,6 @@
 .next/*
-src/app/api/qdrant/*
-src/app/api/uploads/*
+src/qdrant/*
+src/uploads/*
 .env.local
 node_modules
 venv

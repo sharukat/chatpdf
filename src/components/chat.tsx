@@ -52,9 +52,8 @@ export const Chat = () => {
 
         try {
             setDbLoading(true);
-            
-            // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`, {
-            const response = await fetch(`/api/upload`, {
+                
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`, {
                 method: 'POST',
                 body: formData,
             });
