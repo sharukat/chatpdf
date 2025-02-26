@@ -1,12 +1,14 @@
 "use client";
 
-import {Button, Textarea} from "@heroui/react";
+import { Button, Textarea } from "@heroui/react";
 import React, { useCallback, useMemo, useContext, useState } from "react";
 import { Messages } from "./messages";
 import { Message } from "../lib/typings";
 import { cn } from "../lib/utils";
 import ChatContext from "../contexts/chat-context";
 import { FileUpload } from "./ui/file-upload";
+import toast, { Toaster } from 'react-hot-toast';
+import { IconArrowUp } from "@tabler/icons-react";
 
 export const Chat = () => {
     const context = useContext(ChatContext);
@@ -50,7 +52,7 @@ export const Chat = () => {
 
         try {
             setDbLoading(true);
-                
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/upload`, {
                 method: 'POST',
                 body: formData,
@@ -63,6 +65,7 @@ export const Chat = () => {
             const data = await response.json();
             setFiles([]);
             console.log("Vector database created.")
+            toast.success("Vector database created.")
             setDbStatus(true)
         } catch (error) {
             console.error('Error uploading files:', error);
@@ -73,6 +76,7 @@ export const Chat = () => {
 
     return (
         <div className="flex flex-1">
+            <Toaster position="bottom-right" />
             <div
                 className="p-2 md:p-10 rounded-tl-2xl border  bg-white flex flex-col gap-2 flex-1 w-full h-full items-center">
                 <div className="flex flex-col gap-2 w-full">
@@ -108,6 +112,14 @@ export const Chat = () => {
                                             value={context.input}
                                             onChange={(e) => context.setInput(e.target.value)}
                                             isDisabled={context.isLoading}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                    e.preventDefault();
+                                                    if (context.input && !context.isLoading && dbStatus) {
+                                                        e.currentTarget.form.requestSubmit();
+                                                    }
+                                                }
+                                            }}
                                         />
                                         {context.input && <Button
                                             className="absolute right-2 bottom-2 z-10 bg-gray-900"
@@ -116,9 +128,10 @@ export const Chat = () => {
                                             radius="full"
                                             type="submit"
                                             color="primary"
+                                            isIconOnly
                                             isDisabled={context.isLoading || !dbStatus}
                                         >
-                                            Submit
+                                            <IconArrowUp />
                                         </Button>}
                                     </form>
                                     {context.messages.length === 0 && (

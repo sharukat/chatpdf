@@ -1,13 +1,14 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
-import {Sidebar, SidebarBody} from "../components/ui/sidebar";
-import {cn} from "../lib/utils";
-import {Button} from "@heroui/react";
+import React, { useEffect, useState } from "react";
+import { Sidebar, SidebarBody } from "../components/ui/sidebar";
+import { cn } from "../lib/utils";
+import { Button } from "@heroui/react";
 import ChatContext from "../contexts/chat-context";
-import {Chat} from "../components/chat";
-import {useAnswerGeneration} from "../hooks/use-generate";
-import {Message} from "../lib/typings";
+import { Chat } from "../components/chat";
+import { useAnswerGeneration } from "../hooks/use-generate";
+import { Message } from "../lib/typings";
+import { IconPlus, IconMenu4} from "@tabler/icons-react";
 
 export default function ChatPage() {
     const [open, setOpen] = useState(false);
@@ -61,6 +62,15 @@ export default function ChatPage() {
                 <Sidebar open={open} setOpen={setOpen}>
                     <SidebarBody className="justify-between gap-10">
                         <div className="flex flex-col overflow-y-auto overflow-x-hidden">
+                            <Button
+                                className="font-bold mb-3"
+                                color="default"
+                                radius="full"
+                                isIconOnly
+                                size="sm"
+                            >
+                                <IconMenu4 />
+                            </Button>
                             {(open) && (
                                 <div className="flex flex-col flex-1">
                                     <Button
@@ -69,6 +79,7 @@ export default function ChatPage() {
                                         radius="full"
                                         size="md"
                                         onPress={handleNewChat}
+                                        startContent={<IconPlus />}
                                     >
                                         New Chat
                                     </Button>
@@ -88,7 +99,7 @@ export default function ChatPage() {
                         </div>
                     </SidebarBody>
                 </Sidebar>
-                <Chat/>
+                <Chat />
             </div>
         </ChatContext.Provider>
     );

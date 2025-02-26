@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RAG Application - Shyftlabs Assessment
+
+This application integrates a Next.js frontend with a Flask backend to deliver a full-stack Retrieval-Augmented Generation (RAG) system powered by various Large Language Models (LLMs).
 
 ## Getting Started
 
-First, run the development server:
-
+### Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/sharukat/rag-pdf-assessment.git
+cd rag-pdf-assessment
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend Setup (Next.js)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Install dependencies:
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Create a `.env.local` file in the frontend directory with the following content:
+```
+NEXT_PUBLIC_API_URL=http://localhost:5328
+GROQ_API_KEY=your_groq_api_key_here
+```
 
-## Learn More
+3. Start the server:
 
-To learn more about Next.js, take a look at the following resources:
+The Next.js frontend will be available at http://localhost:3000.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Backend Setup (Flask)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Create and activate a virtual environment:
+```bash
+python -m venv venv
 
-## Deploy on Vercel
+source venv/bin/activate
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Create a `.env` file in the backend directory with the following content:
+```
+COHERE_API_KEY=your_cohere_api_key_here
+NOMIC_API_KEY=your_nomic_api_key_here
+```
+
+4. Start the Flask server:
+```bash
+cd api
+python3 index.py
+```
+OR
+```bash
+cd api
+flask run --port=5328
+```
+
+The Flask backend will be available at http://localhost:5328.
+
+# Technology Stack
+
+### LLM Models
+
+This application leverages two large language models (LLMs) through `Groq`:
+
+- `llama-3.3-70b-versatil`: Used for Hypothetical Document Embedding (HyDE).
+- `deepseek-r1-distill-llama-70b`: Used for final answer generationg when contextual information is provided.
+
+### Embedding Models
+
+- **Nomic Embediing**: A powerful embedding model that captures semantic relationships between text chunks, enabling accurate document retrieval.
+
+### Advanced RAG Techniques
+
+#### Chunking Strategy
+Documents are processed using an `semantic chunking` strategy that:
+- Leverage `Nomic` embeddings to determine breakpoints
+- Automatically adjusts chunk sizes based semantics of the text
+
+#### Hypothetical Document Embeddings (HyDE)
+This system implements HyDE to improve retrieval relevance:
+1. The user query is expanded into a hypothetical document that might answer it
+2. The hypothetical embeddings are used to search for relevant document chunks
+
+#### Searching Strategy
+This system uses `Hybrid (Dense + Sparse)` embeddings search technique.
+1. Leverage `Nomic` embeddings for dense retrieval identifying semantic relationship.
+2. The `BM25` algorithm uses sparse embeddings to match specific terms.
+
+#### Repacking & Reranking
+1. **Reranking**: Improve the relevance of the retrieved documents to ensure the most important information appears first.
+2. **Repacking**: The order of the chunks might affect response generation. This technique repacks the chunks in ascending order.
+
+
+## API Documentation
+
+The backend exposes the following endpoints:
+
+- `POST /api/upload`: Upload new documents, perform semantic chunking, and create a vector database.
+- `POST /api/getdocuments`: Retrieval of relevant contextual information from a vector database.”
+
+
+## License
+
+[MIT License](LICENSE)

@@ -3,6 +3,7 @@ import { Message, History } from "../lib/typings";
 import { streamText, generateText } from 'ai';
 import { createGroq } from '@ai-sdk/groq';
 import { v4 } from 'uuid';
+import toast from 'react-hot-toast';
 
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -33,12 +34,12 @@ export const useAnswerGeneration = () => {
                 model: groq('llama-3.3-70b-versatile'),
                 temperature: 0,
                 system: `You are an expert in question answering.
-                    First, analyze the question carefully and think step by step.
-                    Provide accurate, factual answers based on verified information.`,
+                    Provide a concise answer assuming you are provided with knowledge related to the document.`,
                 prompt: `Question:
                     ${lastMessage}`,
             });
             const hydeText = hyde.text
+            toast.success("HyDE Generation Successful")
             console.log(hydeText)
 
 
@@ -54,8 +55,10 @@ export const useAnswerGeneration = () => {
             if (data.response) {
                 context = data.response;
                 console.log("Retrieval Successful")
+                toast.success("Hybrid Retrieval Successful")
             } else {
                 console.log("Received invalid response format from server");
+                toast.error("Failed to get response from server")
             }
 
 
@@ -116,6 +119,7 @@ export const useAnswerGeneration = () => {
             }
 
             console.log("Answer Generation Successful");
+            toast.success("Answer Generation Successful")
         } catch (error) {
             console.error("Submission error:", error);
         } finally {
