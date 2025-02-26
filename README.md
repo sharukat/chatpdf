@@ -90,6 +90,10 @@ This system uses `Hybrid (Dense + Sparse)` embeddings search technique.
 1. Leverage `Nomic` embeddings for dense retrieval identifying semantic relationship.
 2. The `BM25` algorithm uses sparse embeddings to match specific terms.
 
+### Prefixing Query and Documents
+1. Used `search_document` prefix for document chunks.
+2. Used `search_query` prefix for the search query.
+
 #### Repacking & Reranking
 1. **Reranking**: Improve the relevance of the retrieved documents to ensure the most important information appears first.
 2. **Repacking**: The order of the chunks might affect response generation. This technique repacks the chunks in ascending order.

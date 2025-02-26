@@ -26,6 +26,11 @@ class VectorDB:
         chunks = chunker.split_documents(documents)
         return chunks
 
+    def add_prefix_to_documents(self, documents: List[Document]):
+        for doc in documents:
+            doc.page_content = f"search_document: {doc.page_content}"
+        return documents
+
     def create_vectordb(self, folder_path: str):
         try:
             if not os.path.exists("qdrant"):
@@ -52,8 +57,9 @@ class VectorDB:
 
             if all_documents:
                 chunks = self.chunking(all_documents)
+                prefixed_chunks = self.add_prefix_to_documents(chunks)
                 QdrantVectorStore.from_documents(
-                    documents=chunks,
+                    documents=prefixed_chunks,
                     collection_name="qdrantdb",
                     embedding=self.dense_embeddings,
                     sparse_embedding=self.sparse_embeddings,

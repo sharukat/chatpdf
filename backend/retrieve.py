@@ -68,6 +68,8 @@ class Retriever:
             base_compressor=compressor, base_retriever=retriever
         )
 
-        reranked_docs = c_retriever.invoke(question)
+        prefixed_question = f"search_query: {question}"
+        reranked_docs = c_retriever.invoke(prefixed_question)
         repacked_docs = self.repacking(reranked_docs)
+        print(repacked_docs)
         return repacked_docs
