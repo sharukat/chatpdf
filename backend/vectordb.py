@@ -33,7 +33,7 @@ class VectorDB:
 
     def create_vectordb(self, folder_path: str):
         try:
-            if not os.path.exists("qdrant"):
+            if not os.path.exists("../qdrant"):
                 os.makedirs("qdrant")
 
             all_documents = []

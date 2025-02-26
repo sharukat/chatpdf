@@ -4,9 +4,7 @@ from typing import List
 from dotenv import load_dotenv
 from langchain_cohere import CohereRerank
 from langchain_core.documents import Document
-from langchain_core.prompts import PromptTemplate
 from langchain.retrievers import contextual_compression
-from langchain_core.output_parsers import StrOutputParser
 from langchain_qdrant import QdrantVectorStore, RetrievalMode
 from langchain_qdrant import FastEmbedSparse
 from langchain_nomic import NomicEmbeddings
@@ -35,23 +33,6 @@ class Retriever:
         except Exception as e:
             logging.info(e)
             raise ValueError(f"Error sorting documents: {e}")
-
-    def hyde_generation(self, question: str):
-        prompt = PromptTemplate.from_template(
-            """
-            You are an expert in question answering.
-            First, analyze the question carefully and think step by step.
-            Provide accurate, factual answers based on verified information.
-
-            Question:
-            `{question}`.
-            """
-        )
-
-        chain = prompt | self.get_hyde(max_tokens=512) | StrOutputParser()
-        response = chain.invoke({
-            "question": question})
-        return response
 
     def retrieve(self, question: str):
         vectordb = QdrantVectorStore.from_existing_collection(
