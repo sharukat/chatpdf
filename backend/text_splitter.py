@@ -1,5 +1,4 @@
 """Experimental **text splitter** based on semantic similarity."""
-from tqdm import tqdm
 import copy
 import re
 from typing import Any, Dict, Iterable, List, Literal, Optional, Sequence, Tuple, cast
@@ -264,8 +263,7 @@ class SemanticChunker(BaseDocumentTransformer):
         """Create documents from a list of texts."""
         _metadatas = metadatas or [{}] * len(texts)
         documents = []
-        for i, text in enumerate(tqdm(texts, total=len(texts),
-                                      desc="Processing Documents")):
+        for i, text in enumerate(texts):
             start_index = 0
             for chunk in self.split_text(text):
                 metadata = copy.deepcopy(_metadatas[i])
