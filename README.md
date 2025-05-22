@@ -5,7 +5,7 @@ An interactive web application that lets users upload any PDF and chat with it u
 ## 🌱 Motivation
 Extracting meaningful information from dense PDFs is often slow and inefficient. This application bridges that gap by combining vector search with the reasoning capabilities of large language models to provide fast, accurate, and context-aware responses to user queries. Whether it’s technical manuals, research papers, or contracts — this tool empowers users to engage with documents conversationally and intelligently.
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Clone the Repository
 ```bash
@@ -116,11 +116,8 @@ The backend exposes the following endpoints:
 - `POST /api/upload`: Upload new documents, perform semantic chunking, and create a vector database.
 - `POST /api/getdocuments`: Retrieval of relevant contextual information from a vector database.”
 
-## Contributing
-
-See [contributing][contribute].
-
-[contribute]: https://github.com/charmbracelet/bubbletea/contribute
+## 👏 Contributing
+I would love your help! Contribute by forking the repo and opening pull requests.
 
 ## License
 
