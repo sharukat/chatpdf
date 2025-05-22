@@ -1,13 +1,16 @@
-# RAG Application - Shyftlabs Assessment
+# Chat with PDF: AI-Powered Document Intelligence
 
-This application integrates a Next.js frontend with a Flask backend to deliver a full-stack Retrieval-Augmented Generation (RAG) system powered by various Large Language Models (LLMs).
+An interactive web application that lets users upload any PDF and chat with it using Retrieval-Augmented Generation (RAG). Built to extract insights and answer questions with the power of Large Language Models (LLMs).
+
+## 🌱 Motivation
+Extracting meaningful information from dense PDFs is often slow and inefficient. This application bridges that gap by combining vector search with the reasoning capabilities of large language models to provide fast, accurate, and context-aware responses to user queries. Whether it’s technical manuals, research papers, or contracts — this tool empowers users to engage with documents conversationally and intelligently.
 
 ## Getting Started
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/sharukat/rag-pdf-assessment.git
-cd rag-pdf-assessment
+git clone https://github.com/sharukat/chatpdf.git
+cd chatpdf
 ```
 
 ### Frontend Setup (Next.js)
