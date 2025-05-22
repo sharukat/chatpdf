@@ -63,7 +63,14 @@ flask run --port=5328
 
 The Flask backend will be available at http://localhost:5328.
 
-# Technology Stack
+## Technology Stack
+<p align="center">
+  <a href="https://go-skill-icons.vercel.app/">
+    <img
+      src="https://go-skill-icons.vercel.app/api/icons?i=python,typescript,flask,nextjs,tailwindcss,langchain,groq,deepseek,"
+    />
+  </a>
+</p>
 
 ### LLM Models
 
@@ -109,6 +116,11 @@ The backend exposes the following endpoints:
 - `POST /api/upload`: Upload new documents, perform semantic chunking, and create a vector database.
 - `POST /api/getdocuments`: Retrieval of relevant contextual information from a vector database.”
 
+## Contributing
+
+See [contributing][contribute].
+
+[contribute]: https://github.com/charmbracelet/bubbletea/contribute
 
 ## License
 
